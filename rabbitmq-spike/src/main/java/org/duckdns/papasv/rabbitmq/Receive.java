@@ -2,6 +2,7 @@ package org.duckdns.papasv.rabbitmq;
 
 import java.io.IOException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -31,6 +32,10 @@ public class Receive {
 	            throws IOException {
 	          String message = new String(body, "UTF-8");
 	          System.out.println(" [x] Received '" + message + "'");
+	          ObjectMapper mapper = new ObjectMapper();
+	          Item newPost = mapper.readValue(body, Item.class);
+	          System.out.println(" [x] Received '" + newPost + "'");
+	          
 	        }
 	      };
 	      channel.basicConsume(QUEUE_NAME, true, consumer);
