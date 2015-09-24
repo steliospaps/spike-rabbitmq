@@ -16,6 +16,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", :guest => 8161, :host => 8161
   config.vm.network "forwarded_port", :guest => 61616, :host => 61616  
   config.vm.network "forwarded_port", :guest => 8080, :host => 8080  
+  config.vm.network "forwarded_port", :guest => 5672, :host => 5672  
 	config.vm.provider "virtualbox" do |v|
 	  v.memory = 1024
 #	  v.cpus = 2
@@ -25,7 +26,7 @@ Vagrant.configure(2) do |config|
 	d.pull_images "rabbitmq"
 	#d.build_image "/vagrant/docker/rabbitmq", args: "-t rabbitmq"
 	#d.run "rabbitmq",args: "-p 8161:8161 -p 61616:61616"
-        d.run "rabbitmq:3-management", args: "-d --hostname my-rabbit --name some-rabbit -p 8080:15672 "
+        d.run "rabbitmq:3-management", args: "-d --hostname my-rabbit --name some-rabbit -p 8080:15672 -p 5672:5672"
   end
 
   # Disable automatic box update checking. If you disable this, then
