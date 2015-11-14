@@ -19,10 +19,12 @@ Vagrant.configure(2) do |config|
     v.memory = 1024
     v.cpus = 1
   end
-  config.vm.provision "shell", inline: "apt-get update"
+  #config.vm.provision "shell", inline: "apt-get update"
   config.vm.provision "docker" do |d|
     d.pull_images "rabbitmq"
     d.run "rabbitmq:3-management", args: "-e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=pass -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 5672:5672"
+    d.build_image "/vagrant", args: "-t myapp"
+    d.run "myapp", args: "-d --name myapp1 --link some-rabbit:rabbit --restart=on-failure:10"
   end
 
   # Disable automatic box update checking. If you disable this, then

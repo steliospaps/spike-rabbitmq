@@ -2,6 +2,8 @@ package org.duckdns.papasv.rabbitmq;
 
 import java.io.IOException;
 
+import org.duckdns.papasv.rabbitmq.server.DockerServer;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -11,8 +13,7 @@ import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.AMQP.BasicProperties;
 
-public class Receive {
-	private final static String QUEUE_NAME = "hello";
+public class ReceiveFromServer {
 
 	  public static void main(String[] argv)
 	      throws java.io.IOException,
@@ -26,7 +27,7 @@ public class Receive {
 	    Connection connection = factory.newConnection();
 	    Channel channel = connection.createChannel();
 
-	    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+	    channel.queueDeclare(DockerServer.QUEUE_NAME_OUT, false, false, false, null);
 	    System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 	    
 	    Consumer consumer = new DefaultConsumer(channel) {
@@ -35,13 +36,10 @@ public class Receive {
 	            throws IOException {
 	          String message = new String(body, "UTF-8");
 	          System.out.println(" [x] Received '" + message + "'");
-	          ObjectMapper mapper = new ObjectMapper();
-	          Item newPost = mapper.readValue(body, Item.class);
-	          System.out.println(" [x] Received '" + newPost + "'");
-	          
+
 	        }
 	      };
-	      channel.basicConsume(QUEUE_NAME, true, consumer);
+	      channel.basicConsume(DockerServer.QUEUE_NAME_OUT, true, consumer);
 	      
 	  }
 }

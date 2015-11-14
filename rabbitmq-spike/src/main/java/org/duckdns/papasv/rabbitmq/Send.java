@@ -17,6 +17,9 @@ public class Send {
 	public static void main(String[] args) throws IOException {
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("localhost");
+		factory.setUsername("user");
+		factory.setPassword("pass");
+
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 		try {
