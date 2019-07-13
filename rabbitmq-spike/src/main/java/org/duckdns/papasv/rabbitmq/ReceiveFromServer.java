@@ -21,8 +21,9 @@ public class ReceiveFromServer {
 
 	    ConnectionFactory factory = new ConnectionFactory();
 	    factory.setHost("localhost");
-		factory.setUsername("user");
-		factory.setPassword("pass");
+	    factory.setPort(5672);
+		factory.setUsername("rabbitmq");
+		factory.setPassword("rabbitmq");
 
 	    Connection connection = factory.newConnection();
 	    Channel channel = connection.createChannel();

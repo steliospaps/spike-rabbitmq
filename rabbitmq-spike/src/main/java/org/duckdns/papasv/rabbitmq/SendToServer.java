@@ -17,8 +17,9 @@ public class SendToServer {
 	public static void main(String[] args) throws IOException {
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("localhost");
-		factory.setUsername("user");
-		factory.setPassword("pass");
+		factory.setPort(5672);
+		factory.setUsername("rabbitmq");
+		factory.setPassword("rabbitmq");
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 		try {
